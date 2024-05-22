@@ -1,6 +1,6 @@
 
-import { EInputTypes, ICalculaterState } from '@/types';
-import { calculatorOperations } from '@/utils';
+import { EInputTypes, ICalculaterState, OperactionKeys } from '@/types';
+import { calculatorOperations, evaluateExpression } from '@/utils';
 
 export interface IInputDigit {
   type: EInputTypes.inputDigit;
@@ -40,6 +40,7 @@ export const initialState: ICalculaterState = {
   displayValue: '0',
   operator: null,
   waitingForOperand: false,
+  history: [],
 };
 
 export const calculatorReducer = (
@@ -114,6 +115,7 @@ export const calculatorReducer = (
 
     case EInputTypes.performOperation: {
       const inputValue = parseFloat(state.displayValue);
+      const history = [...state.history, inputValue];
 
       if (state.value === null) {
         return {
@@ -121,18 +123,22 @@ export const calculatorReducer = (
           value: inputValue,
           operator: action.payload,
           waitingForOperand: true,
+          history,
         };
       }
 
       if (state.operator) {
-        const currentValue = state.value || 0;
-        const newValue = calculatorOperations[state.operator as OperactionKeys].func(currentValue, inputValue);
+        const newValue = evaluateExpression(history);
+        // const currentValue = state.value || 0;
+        // console.log(calculatorOperations[state.operator as OperactionKeys].name)
+        // const newValue = calculatorOperations[state.operator as OperactionKeys].func(currentValue, inputValue);
 
         return {
           value: newValue,
           displayValue: `${newValue}`,
           operator: action.payload,
           waitingForOperand: true,
+          history: [newValue],
         };
       }
 
@@ -140,6 +146,7 @@ export const calculatorReducer = (
         ...state,
         operator: action.payload,
         waitingForOperand: false,
+        history
       };
     }
 

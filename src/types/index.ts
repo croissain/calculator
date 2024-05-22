@@ -6,7 +6,7 @@ export interface CalculatorValues {
   name: OperationNames;
   symbol: OperationSymbols;
   show: boolean;
-  func: (prevValue: number, nextValue: number) => number;
+  func: (prevValue: number, nextValue: number, prevOp?: OperationSymbols) => number;
 }
 
 export interface ICalculaterState {
@@ -14,6 +14,7 @@ export interface ICalculaterState {
   displayValue: string;
   operator: string | number | null;
   waitingForOperand: boolean;
+  history: string[];
 }
 
 export type CalculatorOperations = {

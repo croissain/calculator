@@ -1,4 +1,4 @@
-import { CalculatorOperations, Digits } from "@/types";
+import { CalculatorOperations, Digits, OperactionKeys, OperationSymbols } from "@/types";
 
 export const digitKeys: Digits[] = ['7', '8', '9', '4', '5', '6', '1', '2', '3', '0'];
 
@@ -25,7 +25,7 @@ export const calculatorOperations: CalculatorOperations = {
     name: 'add',
     symbol: '+',
     show: true,
-    func: (prevValue: number, nextValue: number) => prevValue + nextValue,
+    func: (prevValue: number, nextValue: number, prevOp?: OperationSymbols) => prevValue + nextValue,
   },
   '=': {
     name: 'equals',
@@ -56,4 +56,35 @@ export const getFormattedValue = (value: string): string => {
   }
 
   return formattedValue.length >= 14 ? parseFloat(value).toExponential().toString() : formattedValue;
+};
+
+export const evaluateExpression = (history: (number | string)[]) => {
+  let stack: (number | string)[] = [];
+
+  for (let i = 0; i < history.length; i++) {
+    if (typeof history[i] === 'number') {
+      stack.push(history[i]);
+    } else {
+      const operator = history[i] as OperactionKeys;
+      if (operator === '*' || operator === '/') {
+        const leftOperand = stack.pop() as number;
+        const rightOperand = history[i + 1] as number;
+        const result = calculatorOperations[operator].func(leftOperand, rightOperand);
+        stack.push(result);
+        i++;
+      } else {
+        stack.push(operator);
+      }
+    }
+  }
+
+  let result = stack.shift() as number;
+  console.log(stack)
+  // while (stack.length > 0) {
+  //   const operator = stack.shift() as OperactionKeys;
+  //   const nextOperand = stack.shift() as number;
+  //   result = calculatorOperations[operator].func(result, nextOperand);
+  // }
+
+  return result;
 };
