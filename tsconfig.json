@@ -25,6 +25,21 @@
 
     // Modules Configuration
     "baseUrl": "./",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@styles/*": ["src/styles/*"],
+      "@components/*": ["src/components/*"],
+      "@modules/*": ["src/modules/*"],
+      "@hooks/*": ["src/hooks/*"],
+      "@constants/*": ["src/constants/*"],
+      "@contexts/*": ["src/contexts/*"],
+      "@store/*": ["src/store/*"],
+      "@interactives/*": ["src/interactives/*"],
+      "@utils/*": ["src/utils/*"],
+      "@types/*": ["src/types/*"],
+      "@icons/*": ["public/icons/*"],
+      "@images/*": ["public/images/*"]
+    },
     "module": "ES2022",
     "moduleResolution": "node",
 
@@ -38,8 +53,8 @@
 
     // Interop Constraints Configuration
     "esModuleInterop": true,
-    "isolatedModules": true
+    "isolatedModules": true,
   },
-  "include": ["src/**/**/*"],
+  "include": ["src/**/*", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]
 }

@@ -1,0 +1,26 @@
+.navbar {
+  position: fixed;
+  top: 24px;
+
+  ul {
+    list-style-type: none;
+    background-color: #847d7da9;
+    padding: 16px;
+    border-radius: 16px;
+    display: flex;
+    outline: 3px solid #ffffff60;
+    outline-offset: -3px;
+    gap: 24px;
+
+    li {
+      * {
+        // border: 1px solid #ffffff60;
+        // border-radius: 12px;
+        // padding: 8px;
+        text-transform: uppercase;
+        text-decoration: none;
+        color: white !important;
+      }
+    }
+  }
+}

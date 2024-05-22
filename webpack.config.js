@@ -1,5 +1,6 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
 module.exports = {
   entry: "./src/index.tsx",
@@ -16,6 +17,7 @@ module.exports = {
   resolve: {
     modules: [__dirname, "src", "node_modules"],
     extensions: ["*", ".js", ".jsx", ".tsx", ".ts"],
+    plugins: [new TsconfigPathsPlugin()],
   },
   module: {
     rules: [
@@ -25,9 +27,9 @@ module.exports = {
         use: ["babel-loader"]
       },
       {
-        test: /\.css$/,
+        test: /\.s[ac]ss$/i,
         exclude: /node_modules/,
-        use: ["style-loader", "css-loader"]
+        use: ["style-loader", "css-loader", "sass-loader"]
       },
       {
         test: /\.(png|svg|jpg|gif)$/,
