@@ -1,0 +1,9 @@
+.calculator-display {
+  &__auto-scaling {
+    display: flex;
+    padding: 0 30px;
+    position: absolute;
+    right: 0;
+    transform-origin: right;
+  }
+}
