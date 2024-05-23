@@ -115,7 +115,9 @@ export const calculatorReducer = (
 
     case EInputTypes.performOperation: {
       const inputValue = parseFloat(state.displayValue);
-      const history = [...state.history, inputValue];
+      const inputOperator = state.operator as string
+      let history = [...state.history, inputValue, inputOperator];
+      history= history.filter(h => h !== null)
 
       if (state.value === null) {
         return {
@@ -128,10 +130,9 @@ export const calculatorReducer = (
       }
 
       if (state.operator) {
-        const newValue = evaluateExpression(history);
-        // const currentValue = state.value || 0;
-        // console.log(calculatorOperations[state.operator as OperactionKeys].name)
-        // const newValue = calculatorOperations[state.operator as OperactionKeys].func(currentValue, inputValue);
+        // const newValue = evaluateExpression(history);
+        const currentValue = state.value || 0;
+        const newValue = calculatorOperations[state.operator as OperactionKeys].func(currentValue, inputValue);
 
         return {
           value: newValue,

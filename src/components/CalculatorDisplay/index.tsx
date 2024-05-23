@@ -1,6 +1,7 @@
 import { FC, useRef, useState, useEffect } from 'react';
 import './style.scss';
 import { getFormattedValue } from '@/utils';
+import { CalculatorDisplayKey } from '../CalculatorDislayKey';
 
 export interface ICalculatorDisplayProps {
   value: string;
@@ -26,12 +27,12 @@ export const CalculatorDisplay: FC<ICalculatorDisplayProps> = ({ value = '0' }) 
   return (
     <div className="calculator-display" ref={parentRef} data-testid="calculator-display">
       <div
-        className="calculator-display__auto-scaling"
+        className="calculator-display__auto-scaling flex"
         style={{ transform: `scale(${scale},${scale})` }}
         ref={innerRef}
         data-testid="calculator-display-inner"
       >
-        {getFormattedValue(value)}
+        {[...getFormattedValue(value)].map(char => <CalculatorDisplayKey value={char} />)}
       </div>
     </div>
   );

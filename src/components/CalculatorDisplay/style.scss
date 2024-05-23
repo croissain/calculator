@@ -1,12 +1,6 @@
 .calculator-display {
-  color: #ececec;
-  line-height: 130px;
-  font-size: 6em;
-  position: relative;
-  flex: 1;
-
   &__auto-scaling {
-    display: inline-block;
+    display: flex;
     padding: 0 30px;
     position: absolute;
     right: 0;

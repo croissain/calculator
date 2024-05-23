@@ -1,0 +1,19 @@
+.calculator-display {
+  color: #ececec;
+  line-height: 120px;
+  font-size: 6em;
+  position: relative;
+  flex: 1;
+
+  &-key {
+    cursor: pointer;
+    transition: all 0.3 ease-in-out;
+    &:hover {
+      background-color: #ffffff20;
+    }
+
+    &.active{
+      background-color: #fd9e2b20;
+    }
+  }
+}

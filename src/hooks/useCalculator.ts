@@ -4,7 +4,7 @@ import { calculatorReducer, initialState } from './reducer';
 import { EInputTypes } from '../types';
 
 export const useCalculator = () => {
-  const [state, dispatch] = useReducer(calculatorReducer, initialState);
+  const [state, dispatch] = useReducer(calculatorReducer, initialState as ICalculaterState);
 
   const handleClick = (type: EInputTypes, payload?: string) => {
     if (payload) {
