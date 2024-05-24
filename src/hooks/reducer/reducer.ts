@@ -40,7 +40,7 @@ export const initialState: ICalculaterState = {
   displayValue: '0',
   operator: null,
   waitingForOperand: false,
-  expression: [],  // Added to track the full expression
+  expression: [],
 };
 
 export const calculatorReducer = (
@@ -113,62 +113,62 @@ export const calculatorReducer = (
         displayValue: '0',
       };
 
-      case EInputTypes.performOperation: {
-      const inputValue = parseFloat(state.displayValue);
-      
-        if (action.payload === "=") {
-          const finalExpression = [...state.expression, state.displayValue].join(" ");
-          console.log(finalExpression)
-      
-          try {
-            const result = eval(finalExpression);
+    case EInputTypes.performOperation: {
+    const inputValue = parseFloat(state.displayValue);
+    
+      if (action.payload === "=") {
+        const finalExpression = [...state.expression, state.displayValue].join(" ");
+        console.log(finalExpression)
+    
+        try {
+          const result = eval(finalExpression);
 
-            const history = JSON.parse(localStorage.getItem("calculatorHistory") || "[]");
-            const newEntry = { expression: finalExpression, result };
-            history.push(newEntry);
-            localStorage.setItem("calculatorHistory", JSON.stringify(history));
-      
-            return {
-              ...state,
-              value: result,
-              displayValue: `${result}`,
-              operator: null,
-              waitingForOperand: false,
-              expression: [],
-            };
-          } catch (error) {
-            return {
-              ...state,
-              displayValue: "Error",
-              operator: null,
-              waitingForOperand: false,
-              expression: [],
-            };
-          }
-        }
-      
-        if (state.operator && !state.waitingForOperand) {
-          const currentValue = state.value || 0;
-          const newValue = calculatorOperations[state.operator as OperactionKeys].func(currentValue, inputValue);
-      
+          const history = JSON.parse(localStorage.getItem("calculatorHistory") || "[]");
+          const newEntry = { expression: finalExpression, result };
+          history.push(newEntry);
+          localStorage.setItem("calculatorHistory", JSON.stringify(history));
+    
           return {
             ...state,
-            value: newValue,
-            displayValue: `${newValue}`,
-            operator: action.payload,
-            waitingForOperand: true,
-            expression: [...state.expression, state.displayValue, action.payload],
+            value: result,
+            displayValue: `${result}`,
+            operator: null,
+            waitingForOperand: false,
+            expression: [],
+          };
+        } catch (error) {
+          return {
+            ...state,
+            displayValue: "Error",
+            operator: null,
+            waitingForOperand: false,
+            expression: [],
           };
         }
-      
+      }
+    
+      if (state.operator && !state.waitingForOperand) {
+        const currentValue = state.value || 0;
+        const newValue = calculatorOperations[state.operator as OperactionKeys].func(currentValue, inputValue);
+    
         return {
           ...state,
-          value: inputValue,
+          value: newValue,
+          displayValue: `${newValue}`,
           operator: action.payload,
           waitingForOperand: true,
           expression: [...state.expression, state.displayValue, action.payload],
         };
       }
+    
+      return {
+        ...state,
+        value: inputValue,
+        operator: action.payload,
+        waitingForOperand: true,
+        expression: [...state.expression, state.displayValue, action.payload],
+      };
+    }
 
     case EInputTypes.clearAll:
       return initialState;
