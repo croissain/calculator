@@ -14,7 +14,7 @@ export interface ICalculaterState {
   displayValue: string;
   operator: string | number | null;
   waitingForOperand: boolean;
-  history: string[];
+  expression: string[];
 }
 
 export type CalculatorOperations = {

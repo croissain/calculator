@@ -1,4 +1,4 @@
-import { CalculatorOperations, Digits, OperactionKeys, OperationSymbols } from "@/types";
+import { CalculatorOperations, Digits, OperactionKeys, OperationSymbols } from "../types";
 
 export const digitKeys: Digits[] = ['7', '8', '9', '4', '5', '6', '1', '2', '3', '0'];
 
@@ -88,3 +88,27 @@ export const evaluateExpression = (history: (number | string)[]) => {
 
   return result;
 };
+
+export const evaluate = (str:string):number => {
+  if (str.match(/[*/+-]/)) {
+    let numbers = "";
+    for (let i = 0; i < str.length; i++) {
+      switch (str[i]) {
+        case "+":
+          return parseInt(numbers) + evaluate(str.slice(numbers.length + 1))
+        case "*":
+          return parseInt(numbers) * evaluate(str.slice(numbers.length + 1))
+        case "/":
+          return parseInt(numbers) / evaluate(str.slice(numbers.length + 1))
+        case "-":
+          return parseInt(numbers) - evaluate(str.slice(numbers.length + 1))
+        default:
+          numbers += str[i];
+          break;
+      }
+    }
+  } else {
+    return parseInt(str[0]);
+  }
+  return 0
+}

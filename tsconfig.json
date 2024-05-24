@@ -55,6 +55,6 @@
     "esModuleInterop": true,
     "isolatedModules": true,
   },
-  "include": ["src/**/*", "**/*.ts", "**/*.tsx"],
+  "include": ["src/**/*", "**/*.ts", "**/*.tsx", "src/components/CalculatorKey"],
   "exclude": ["node_modules"]
 }
