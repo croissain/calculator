@@ -122,6 +122,11 @@ export const calculatorReducer = (
       
           try {
             const result = eval(finalExpression);
+
+            const history = JSON.parse(localStorage.getItem("calculatorHistory") || "[]");
+            const newEntry = { expression: finalExpression, result };
+            history.push(newEntry);
+            localStorage.setItem("calculatorHistory", JSON.stringify(history));
       
             return {
               ...state,
