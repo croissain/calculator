@@ -1,5 +1,5 @@
-import { EInputTypes, ICalculaterState, OperactionKeys } from '@/types';
-import { calculatorOperations } from '@/utils';
+import { EInputTypes, ICalculaterState, OperactionKeys } from '../../types';
+import { calculatorOperations } from '../../utils';
 
 export interface IInputDigit {
   type: EInputTypes.inputDigit;

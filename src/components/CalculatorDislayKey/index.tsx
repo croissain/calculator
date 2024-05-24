@@ -11,7 +11,7 @@ export const CalculatorDisplayKey: FC<ICalculatorDisplayKeyProps> = ({ value = '
   return (
       <div
         className={`calculator-display-key ${isActive&&"active"}`}
-        data-testid="calculator-display-inner"
+        data-testid="calculator-display-inner-key"
         onClick={()=>setIsActive(!isActive)}
       >
         {value}

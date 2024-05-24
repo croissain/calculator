@@ -25,6 +25,7 @@
     "@eslint/js": "^9.3.0",
     "@testing-library/jest-dom": "^6.4.5",
     "@testing-library/react": "^15.0.7",
+    "@testing-library/user-event": "^14.5.2",
     "@types/jest": "^29.5.12",
     "@types/lodash.map": "^4.6.13",
     "@types/react": "18.3.2",
@@ -62,6 +63,8 @@
     "webpack-dev-server": "5.0.4"
   },
   "dependencies": {
-    "lodash.map": "^4.6.0"
+    "identity-obj-proxy": "^3.0.0",
+    "lodash.map": "^4.6.0",
+    "module-alias": "^2.2.3"
   }
 }

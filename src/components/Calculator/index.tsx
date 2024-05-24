@@ -3,8 +3,8 @@ import { CalculatorKey } from '../CalculatorKey';
 import './style.scss';
 import { CalculatorDisplay } from '../CalculatorDisplay';
 import { useCalculator } from '@/hooks/useCalculator';
-import { EInputTypes } from '@/types';
-import { calculatorOperations, digitKeys } from '@/utils';
+import { EInputTypes } from '../../types';
+import { calculatorOperations, digitKeys } from '../../utils';
 
 export const Calculator = () => {
   const { state, handleClick } = useCalculator();

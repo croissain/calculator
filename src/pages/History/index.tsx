@@ -6,14 +6,16 @@ const History: React.FC = () => {
   useEffect(() => {
     const storedHistory = JSON.parse(localStorage.getItem('calculatorHistory') || '[]');
 
-    const result = [storedHistory[0]]
-    for (let i = 1; i < storedHistory.length; i++) {
-      if (storedHistory[i].expression !== storedHistory[i - 1].expression) {
-        result.push(storedHistory[i]);
+    if (storedHistory.length) {
+      const result = [storedHistory[0]]
+      for (let i = 1; i < storedHistory.length; i++) {
+        if (storedHistory[i].expression !== storedHistory[i - 1].expression) {
+          result.push(storedHistory[i]);
+        }
       }
+      
+      setHistory(result)
     }
-
-    setHistory(result)
   }, []);
 
   return (
