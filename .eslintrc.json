@@ -1,9 +1,10 @@
 {
   "env":{
     "browser":true,
-    "es2021":true
+    "es2021":true,
+    "jest": true
   },
-  "extends": ["plugin:react/recommended", "airbnb", "prettier", "airbnb-typescript"],
+  "extends": ["plugin:react/recommended", "airbnb", "prettier", "plugin:jest/recommended", "airbnb-typescript"],
   "parserOptions":{
     "ecmaFeatures": {
       "jsx":true
@@ -12,7 +13,7 @@
     "sourceType": "module",
     "project": "./tsconfig.json"
   },
-  "plugins": ["react"],
+  "plugins": ["react", "jest"],
   "rules": {
     "prettier/prettier": [
       "error",

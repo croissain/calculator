@@ -1,6 +1,5 @@
-
 import { EInputTypes, ICalculaterState, OperactionKeys } from '@/types';
-import { calculatorOperations, evaluateExpression } from '@/utils';
+import { calculatorOperations } from '@/utils';
 
 export interface IInputDigit {
   type: EInputTypes.inputDigit;
@@ -29,18 +28,19 @@ export interface IClearDisplay {
 
 export interface IPerformOperation {
   type: EInputTypes.performOperation;
-  payload: number | string | null;
+  payload: string | null;
 }
 
 export interface IClearAll {
   type: EInputTypes.clearAll;
 }
+
 export const initialState: ICalculaterState = {
   value: null,
   displayValue: '0',
   operator: null,
   waitingForOperand: false,
-  history: [],
+  expression: [],  // Added to track the full expression
 };
 
 export const calculatorReducer = (
@@ -73,7 +73,7 @@ export const calculatorReducer = (
 
       return {
         ...state,
-        displayValue: `${state.displayValue}.`,
+        displayValue: state.displayValue.includes('.') ? state.displayValue : `${state.displayValue}.`,
         waitingForOperand: false,
       };
     }
@@ -113,48 +113,62 @@ export const calculatorReducer = (
         displayValue: '0',
       };
 
-    case EInputTypes.performOperation: {
+      case EInputTypes.performOperation: {
       const inputValue = parseFloat(state.displayValue);
-      const inputOperator = state.operator as string
-      let history = [...state.history, inputValue, inputOperator];
-      history= history.filter(h => h !== null)
-
-      if (state.value === null) {
+      
+        if (action.payload === "=") {
+          const finalExpression = [...state.expression, state.displayValue].join(" ");
+          console.log(finalExpression)
+      
+          try {
+            const result = eval(finalExpression);
+      
+            return {
+              ...state,
+              value: result,
+              displayValue: `${result}`,
+              operator: null,
+              waitingForOperand: false,
+              expression: [],
+            };
+          } catch (error) {
+            return {
+              ...state,
+              displayValue: "Error",
+              operator: null,
+              waitingForOperand: false,
+              expression: [],
+            };
+          }
+        }
+      
+        if (state.operator && !state.waitingForOperand) {
+          const currentValue = state.value || 0;
+          const newValue = calculatorOperations[state.operator as OperactionKeys].func(currentValue, inputValue);
+      
+          return {
+            ...state,
+            value: newValue,
+            displayValue: `${newValue}`,
+            operator: action.payload,
+            waitingForOperand: true,
+            expression: [...state.expression, state.displayValue, action.payload],
+          };
+        }
+      
         return {
           ...state,
           value: inputValue,
           operator: action.payload,
           waitingForOperand: true,
-          history,
+          expression: [...state.expression, state.displayValue, action.payload],
         };
       }
-
-      if (state.operator) {
-        // const newValue = evaluateExpression(history);
-        const currentValue = state.value || 0;
-        const newValue = calculatorOperations[state.operator as OperactionKeys].func(currentValue, inputValue);
-
-        return {
-          value: newValue,
-          displayValue: `${newValue}`,
-          operator: action.payload,
-          waitingForOperand: true,
-          history: [newValue],
-        };
-      }
-
-      return {
-        ...state,
-        operator: action.payload,
-        waitingForOperand: false,
-        history
-      };
-    }
 
     case EInputTypes.clearAll:
       return initialState;
 
     default:
-      return initialState;
+      return state;
   }
 };
